@@ -8,6 +8,7 @@ CREATE TABLE properties (
     one_house_charge INTEGER DEFAULT 0,
     two_house_charge INTEGER DEFAULT 0,
     hotel_charge INTEGER DEFAULT 0,
+    zone_id INTEGER DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

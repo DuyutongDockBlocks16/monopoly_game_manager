@@ -8,7 +8,8 @@ properties
     empty_charge,
     one_house_charge,
     two_house_charge,
-    hotel_charge
+    hotel_charge,
+    zone_id
 ) VALUES 
 (
     'China', /*country_name*/
@@ -18,8 +19,8 @@ properties
     200, /*empty_charge*/
     400, /*one_house_charge*/
     600, /*two_house_charge*/
-    1000 /*hotel_charge*/
-    
+    1000, /*hotel_charge*/
+    1
 ),
 (
     'Swiss', /*country_name*/
@@ -29,5 +30,6 @@ properties
     200, /*empty_charge*/
     1800, /*one_house_charge*/
     5000, /*two_house_charge*/
-    17000 /*hotel_charge*/
+    17000, /*hotel_charge*/
+    2
 )

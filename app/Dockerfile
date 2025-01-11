@@ -26,6 +26,7 @@ RUN npm ci && npm run build
 # RUN npm run build
 FROM debian:bullseye
 EXPOSE 5000
+EXPOSE 3000
 
 LABEL fly_launch_runtime="nodejs"
 

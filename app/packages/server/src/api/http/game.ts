@@ -1,16 +1,8 @@
 import express from "express";
 import gameStore from "../../gameStore";
 import { ICreateGameRequest, IJoinGameRequest, IJoinGameResponse } from "../dto";
-import pg from "pg";
+import { getAllProperties } from "./propertyService";
 
-const { Client } = pg
-const client = new Client({
-  // user: 'database-user',
-  // password: 'secretpassword!!',
-  // host: 'my.database-server.com',
-  // port: 5334,
-  // database: 'database-name',
-})
 
 export const subRoute = "/api/game";
 
@@ -25,6 +17,10 @@ router.post("/", (req, res) => {
   const response: IJoinGameResponse = { gameId, userToken, playerId };
   res.json(response);
   res.end();
+});
+
+router.get('/', (req, res) => {
+  res.send('Server is running');
 });
 
 // Join a game
@@ -67,23 +63,16 @@ router.get("/:gameId", (req, res) => {
   res.end();
 });
 
-// router.get("/properties", (req, res) => {
-//   const { gameId } = req.params;
-//   const userToken = req.get("Authorization");
-
-//   if (userToken === undefined) {
-//     res.status(401).send("Authorization not supplied");
-//   } else if (!gameStore.doesGameExist(gameId)) {
-//     res.status(404).send("Game does not exist");
-//   } else if (!gameStore.getGame(gameId).isUserInGame(userToken)) {
-//     res.status(401).send("You are not permitted to make this operation");
-//   } else {
-//     const game = gameStore.getGame(gameId);
-//     const state = game.getGameState();
-//     res.json(state);
-//   }
-
-//   res.end();
-// });
+// curl -X GET http://localhost:3000/properties
+router.get("/properties", async (req, res) => {
+  try {
+    // 调用获取所有属性的函数
+    const properties = await getAllProperties();
+    res.status(200).json(properties); // 返回获取到的属性
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    res.status(500).json({ error: 'Internal server error' }); // 错误处理
+  }
+});
 
 export default router;
