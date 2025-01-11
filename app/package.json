@@ -1,0 +1,28 @@
+{
+  "name": "monopoly-money",
+  "private": true,
+  "description": "A mobile-friendly application that helps you manage your finances in a game of Monopoly from the browser",
+  "author": "Brent Vollebregt",
+  "homepage": "https://github.com/brentvollebregt/monopoly-money#readme",
+  "main": "packages/server/build/index.js",
+  "scripts": {
+    "start": "node packages/server/build",
+    "build": "npm run build -w ./packages/game-state && npm run build -w ./packages/server && npm run build -w ./packages/client && node postbuild.js",
+    "client:dev": "npm run dev -w ./packages/client",
+    "server:dev": "npm run dev -w ./packages/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brentvollebregt/monopoly-money.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brentvollebregt/monopoly-money/issues"
+  },
+  "workspaces": [
+    "./packages/*"
+  ],
+  "engines": {
+    "node": "22.x",
+    "npm": "10.x"
+  }
+}

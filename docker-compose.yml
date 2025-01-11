@@ -1,0 +1,84 @@
+version: "3.4"
+
+# volumes:
+  # astro_node_modules:
+
+services:
+  # nginx:
+  #   image: nginx:latest
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  #   depends_on:
+  #     - qa-api
+  #     - qa-ui
+  #   ports:
+  #     - 7800:7800
+
+  app:
+    build: app
+    image: app
+    restart: "no"
+    volumes:
+      - ./app/:/app
+    ports:
+      - 5000:5000
+    depends_on:
+      - database
+      - flyway
+    env_file:
+      - project.env
+
+
+  # qa-ui:
+  #   build: qa-ui
+  #   image: qa-ui
+  #   restart: "no"
+  #   volumes:
+  #     - ./qa-ui/:/app
+  #     - astro_node_modules:/app/node_modules
+  #   expose:
+  #     - 3000
+  #   depends_on:
+  #     - qa-api
+
+  # llm-api:
+  #   build: llm-api
+  #   image: llm-api
+  #   restart: "no"
+  #   expose:
+  #     - 7000
+
+  database:
+    container_name: database-server-dab-p2-ffeb713a-b7eb-49df-a5ae-4877ceec8fdc
+    image: postgres:14.1
+    restart: "no"
+    env_file:
+      - project.env
+
+  flyway:
+    image: flyway/flyway:9.11.0-alpine
+    depends_on:
+      - database
+    volumes:
+      - ./flyway/sql/:/flyway/sql
+    command: -connectRetries=60 -baselineOnMigrate=true migrate
+    env_file:
+      - project.env
+
+  # e2e-playwright:
+  #   entrypoint: "/bin/true"
+  #   build: e2e-playwright
+  #   image: e2e-playwright
+  #   network_mode: host
+  #   depends_on:
+  #     - nginx
+  #   volumes:
+  #     - ./e2e-playwright/tests:/e2e-playwright/tests
+
+  # redis-cache:
+  #   image: redis:latest
+  #   command: redis-server /usr/local/etc/redis/redis.conf
+  #   volumes:
+  #     - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+  #   expose:
+  #     - 6379
