@@ -19,6 +19,7 @@ router.post("/", (req, res) => {
   res.end();
 });
 
+// curl -i -X GET http://localhost:3000/api/game/
 router.get('/', (req, res) => {
   res.send('Server is running');
 });
@@ -63,15 +64,14 @@ router.get("/:gameId", (req, res) => {
   res.end();
 });
 
-// curl -X GET http://localhost:3000/properties
+// curl -X GET http://localhost:3000/api/game/properties
 router.get("/properties", async (req, res) => {
   try {
-    // 调用获取所有属性的函数
     const properties = await getAllProperties();
-    res.status(200).json(properties); // 返回获取到的属性
+    res.status(200).json(properties); 
   } catch (error) {
     console.error('Error fetching properties:', error);
-    res.status(500).json({ error: 'Internal server error' }); // 错误处理
+    res.status(500).json({ error: 'Internal server error' }); 
   }
 });
 
