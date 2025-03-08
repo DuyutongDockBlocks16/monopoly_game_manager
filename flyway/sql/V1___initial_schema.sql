@@ -13,11 +13,14 @@ CREATE TABLE properties (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TYPE property_status AS ENUM ('mortgaged', 'purchased');
+
 CREATE TABLE properties_in_game (
     id SERIAL PRIMARY KEY,
     property_id INTEGER REFERENCES properties(id),
     game_id TEXT NOT NULL,
     house_number INTEGER DEFAULT 0,
+    status property_status,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP    
 );
