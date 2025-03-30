@@ -97,3 +97,34 @@ func (s *SampleService) OwnedPropertiesHandler(gameID string) ([]YourData, error
 
 	return results, nil
 }
+
+func (s *SampleService) purchasePropertyHandler(gameID string, propertyID string) error {
+	query := `
+		INSERT INTO properties_in_game(game_id, property_id, house_number, property_status)
+		VALUES($1, $2, 0, 'purchased')
+	`
+
+	_, err := s.db.Exec(query, gameID, propertyID)
+	if err != nil {
+		log.Println("Error executing query:", err)
+		return err
+	}
+
+	return nil
+}
+
+func (s *SampleService) mortgagePropertyHandler(gameID string, propertyID string) error {
+	query := `
+		UPDATE properties_in_game
+		SET house_number = 0, property_status = 'mortgaged'
+		WHERE game_id = $1 AND property_id = $2
+	`
+
+	_, err := s.db.Exec(query, gameID, propertyID)
+	if err != nil {
+		log.Println("Error executing query:", err)
+		return err
+	}
+
+	return nil
+}
